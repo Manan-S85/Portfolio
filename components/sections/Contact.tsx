@@ -167,7 +167,7 @@ export default function Contact() {
                                 <input
                                     type="text"
                                     required
-                                    placeholder="John Doe"
+                                    placeholder="Your name"
                                     value={formState.name}
                                     onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                                     className="w-full bg-surface border border-border rounded-xl px-4 py-3 text-sm text-[var(--color-text)] placeholder-[var(--color-muted)] focus:outline-none focus:border-primary-600/60 focus:ring-1 focus:ring-primary-600/30 transition-all"
@@ -182,7 +182,7 @@ export default function Contact() {
                                 <input
                                     type="email"
                                     required
-                                    placeholder="john@example.com"
+                                    placeholder="your.email@example.com"
                                     value={formState.email}
                                     onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                                     className="w-full bg-surface border border-border rounded-xl px-4 py-3 text-sm text-[var(--color-text)] placeholder-[var(--color-muted)] focus:outline-none focus:border-primary-600/60 focus:ring-1 focus:ring-primary-600/30 transition-all"
@@ -197,7 +197,7 @@ export default function Contact() {
                                 <textarea
                                     required
                                     rows={5}
-                                    placeholder="I'd love to discuss a project..."
+                                    placeholder="I'd love to discuss..."
                                     value={formState.message}
                                     onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                                     className="w-full bg-surface border border-border rounded-xl px-4 py-3 text-sm text-[var(--color-text)] placeholder-[var(--color-muted)] focus:outline-none focus:border-primary-600/60 focus:ring-1 focus:ring-primary-600/30 transition-all resize-none"
