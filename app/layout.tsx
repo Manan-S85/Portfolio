@@ -3,7 +3,7 @@ import React from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-    title: "Manansinh Sandhaliya | AI & Full Stack Engineer",
+    title: "Manansinh Sandhaliya's Portfolio",
     description:
         "Portfolio of Manansinh Sandhaliya — AI & Full Stack Engineer specializing in intelligent systems, machine learning, and modern web applications.",
     keywords: [
@@ -23,14 +23,14 @@ export const metadata: Metadata = {
         type: "website",
         locale: "en_US",
         url: "https://manansinh.dev",
-        title: "Manansinh Sandhaliya | AI & Full Stack Engineer",
+        title: "Manansinh's Portfolio",
         description:
             "Building intelligent systems that solve real-world problems.",
         siteName: "Manansinh Sandhaliya Portfolio",
     },
     twitter: {
         card: "summary_large_image",
-        title: "Manansinh Sandhaliya | AI & Full Stack Engineer",
+        title: "Manansinh's Portfolio",
         description: "Building intelligent systems that solve real-world problems.",
     },
     robots: {
