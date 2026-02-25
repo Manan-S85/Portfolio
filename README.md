@@ -38,7 +38,14 @@ npm start
 
 Contact form
 - The contact form posts to a local Next.js API at `/api/contact` which proxies the request to a Google Apps Script endpoint that writes to a Google Sheet.
-- To change the destination script, edit `app/api/contact/route.ts` (or replace the forwarding logic to use an environment variable).
+- For production, set the Google Apps Script URL as an environment variable named `GOOGLE_SCRIPT_URL` in Vercel (or your hosting provider). If not set, the proxy falls back to the current script URL in source.
+
+Vercel deployment
+- The project is ready for Vercel. A `vercel.json` file is included with a placeholder `GOOGLE_SCRIPT_URL` environment value.
+- To deploy:
+	1. Import the repo into Vercel or connect via the Vercel CLI.
+	2. In the Vercel dashboard set the `GOOGLE_SCRIPT_URL` env var (Project Settings → Environment Variables).
+	3. Deploy — Vercel will detect Next.js automatically and run `npm run build`.
 
 Notes
 - A `.gitignore` file is included to exclude builds, node_modules and environment files.
