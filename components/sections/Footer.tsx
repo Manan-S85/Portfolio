@@ -104,17 +104,6 @@ export default function Footer() {
                     <p className="text-xs text-slate-600">
                         © {new Date().getFullYear()} Manansinh Sandhaliya. All rights reserved.
                     </p>
-
-                    <div className="flex items-center gap-1.5 text-xs text-slate-600">
-                        <span>Built with</span>
-                        <FiHeart size={11} className="text-primary-400" />
-                        <span>using</span>
-                        <SiNextdotjs size={12} className="text-slate-400" />
-                        <span className="text-slate-400">Next.js</span>
-                        <span>&amp; deployed on</span>
-                        <SiVercel size={11} className="text-slate-400" />
-                        <span className="text-slate-400">Vercel</span>
-                    </div>
                 </motion.div>
             </div>
         </footer>
