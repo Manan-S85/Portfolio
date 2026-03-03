@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    experimental: {
-        optimizePackageImports: ["react-icons"],
-    },
+    /* config options here */
 };
 
 export default nextConfig;
