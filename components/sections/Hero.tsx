@@ -2,8 +2,8 @@
 
 import { useRef, useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { FiArrowDown, FiBriefcase, FiClock, FiCopy, FiDownload, FiMail, FiMapPin, FiPhone } from "react-icons/fi";
-import { SiGithub, SiLinkedin } from "react-icons/si";
+import { FiArrowDown, FiBriefcase, FiClock, FiCopy, FiDownload, FiLinkedin, FiMail, FiMapPin, FiPhone } from "react-icons/fi";
+import { SiGithub } from "react-icons/si";
 
 // Neural network canvas animation
 function NeuralCanvas() {
@@ -369,7 +369,7 @@ export default function Hero() {
                             className="text-slate-500 hover:text-white transition-colors p-2"
                             aria-label="LinkedIn"
                         >
-                            <SiLinkedin size={22} />
+                            <FiLinkedin size={22} />
                         </a>
                         <a
                             href="mailto:sandhaliya1@gmail.com"
