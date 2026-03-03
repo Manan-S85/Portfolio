@@ -3,17 +3,18 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
-import Skills from "@/components/sections/Skills";
 import Education from "@/components/sections/Education";
+import TechStack from "@/components/sections/TechStack";
 import Projects from "@/components/sections/Projects";
 import Experience from "@/components/sections/Experience";
 import Achievements from "@/components/sections/Achievements";
+import Certifications from "@/components/sections/Certifications";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 
 export default function Home() {
     return (
-        <main className="relative min-h-screen bg-background overflow-x-hidden">
+        <main className="relative min-h-screen bg-background overflow-x-hidden md:pr-14">
             {/* Ambient background orbs */}
             <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
                 <div className="orb orb-purple w-96 h-96 top-[-100px] left-[-100px]" />
@@ -28,10 +29,11 @@ export default function Home() {
                 <Hero />
                 <About />
                 <Education />
-                <Skills />
+                <TechStack />
                 <Projects />
                 <Experience />
                 <Achievements />
+                <Certifications />
                 <Contact />
                 <Footer />
             </div>

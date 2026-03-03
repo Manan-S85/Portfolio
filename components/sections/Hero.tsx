@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { FiArrowDown, FiDownload, FiMail } from "react-icons/fi";
+import { FiArrowDown, FiBriefcase, FiClock, FiCopy, FiDownload, FiMail, FiMapPin, FiPhone } from "react-icons/fi";
 import { SiGithub, SiLinkedin } from "react-icons/si";
 
 // Neural network canvas animation
@@ -110,7 +110,72 @@ const item = {
     show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
+const MY_TZ = "Asia/Kolkata";
+
+function tzOffsetMin(tz: string): number {
+    try {
+        const parts = new Intl.DateTimeFormat("en-US", {
+            timeZone: tz,
+            timeZoneName: "shortOffset",
+        }).formatToParts(new Date());
+        const label = parts.find((p) => p.type === "timeZoneName")?.value ?? "GMT+0";
+        const m = label.match(/GMT([+-])(\d{1,2})(?::(\d{2}))?/);
+        if (!m) return 0;
+        const sign = m[1] === "+" ? 1 : -1;
+        return sign * (parseInt(m[2], 10) * 60 + parseInt(m[3] ?? "0", 10));
+    } catch {
+        return 0;
+    }
+}
+
 export default function Hero() {
+    const [copied, setCopied] = useState(false);
+    const [now, setNow] = useState<Date | null>(null);
+    const [visitorTz, setVisitorTz] = useState("UTC");
+
+    // Kick off the clock only on the client to avoid SSR mismatch
+    useEffect(() => {
+        setNow(new Date());
+        setVisitorTz(Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC");
+        const timer = setInterval(() => setNow(new Date()), 1000);
+        return () => clearInterval(timer);
+    }, []);
+
+    const myTime = useMemo(
+        () =>
+            now
+                ? now.toLocaleTimeString("en-US", {
+                      timeZone: MY_TZ,
+                      hour12: true,
+                      hour: "numeric",
+                      minute: "2-digit",
+                      second: "2-digit",
+                  })
+                : "",
+        [now],
+    );
+
+    const tzLabel = useMemo(() => {
+        if (!now) return "";
+        const diff = tzOffsetMin(MY_TZ) - tzOffsetMin(visitorTz);
+        if (diff === 0) return "You're in the same timezone as me";
+        const abs = Math.abs(diff);
+        const h = Math.floor(abs / 60);
+        const min = abs % 60;
+        const unit = min ? `${h}h ${min}m` : `${h} hr${h !== 1 ? "s" : ""}`;
+        return diff > 0 ? `You are ${unit} behind me` : `You are ${unit} ahead of me`;
+    }, [now, visitorTz]);
+
+    const copyEmail = async () => {
+        try {
+            await navigator.clipboard.writeText("sandhaliya1@gmail.com");
+            setCopied(true);
+            setTimeout(() => setCopied(false), 1500);
+        } catch {
+            setCopied(false);
+        }
+    };
+
     const handleScrollTo = (id: string) => {
         document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     };
@@ -136,8 +201,24 @@ export default function Hero() {
                     animate="show"
                     className="max-w-4xl mx-auto text-center"
                 >
+                    {/* Profile photo — above the name */}
+                    <motion.div variants={item} className="flex justify-center mt-12 mb-6">
+                        <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-primary-600/30 shadow-[0_0_28px_rgba(212,175,55,0.18)] hover:scale-105 transition-transform duration-300">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src="/manan.jpeg"
+                                alt="Manansinh Sandhaliya"
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                    (e.currentTarget as HTMLImageElement).src =
+                                        "/profile-placeholder.svg";
+                                }}
+                            />
+                        </div>
+                    </motion.div>
+
                     {/* Status badge */}
-                    <motion.div variants={item} className="inline-flex items-center gap-2 mt-12 mb-8">
+                    <motion.div variants={item} className="inline-flex items-center gap-2 mb-8">
                         <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
@@ -162,6 +243,63 @@ export default function Hero() {
                         <span className="inline-block px-4 py-2 rounded-full border border-primary-600/40 bg-primary-600/10 text-[var(--color-text)] text-sm font-mono font-medium tracking-wide">
                             Software Engineer (AI/ML & Full-Stack) · CSE-AIML
                         </span>
+                    </motion.div>
+
+                    {/* ── Profile details: company, location, phone, email, timezone ── */}
+                    <motion.div
+                        variants={item}
+                        className="mb-10 flex flex-col items-center gap-4"
+                    >
+                        {/* Company + Location badges */}
+                        <div className="flex flex-wrap items-center justify-center gap-2">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border glass text-sm text-[var(--color-muted)]">
+                                <FiBriefcase size={14} className="text-[var(--color-primary)]" />
+                                AIML Intern @ Detagenix Pvt. Ltd.
+                            </span>
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border glass text-sm text-[var(--color-muted)]">
+                                <FiBriefcase size={14} className="text-[var(--color-primary)]" />
+                                Open to Full Stack AI Engineering Roles
+                            </span>
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border glass text-sm text-[var(--color-muted)]">
+                                <FiMapPin size={14} className="text-[var(--color-primary)]" />
+                                Gujarat, India
+                            </span>
+                        </div>
+
+                        {/* Phone + Email */}
+                        <div className="flex flex-wrap items-center justify-center gap-3">
+                            <a
+                                href="tel:+919712945084"
+                                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl glass border border-border text-sm text-[var(--color-muted)] hover:text-[var(--color-text)] hover:border-primary-600/30 transition-all"
+                            >
+                                <FiPhone size={15} className="text-[var(--color-primary)]" />
+                                +91 9712945084
+                            </a>
+                            <button
+                                type="button"
+                                onClick={copyEmail}
+                                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl glass border border-border text-sm text-[var(--color-muted)] hover:text-[var(--color-text)] hover:border-primary-600/30 transition-all"
+                            >
+                                <FiMail size={15} className="text-[var(--color-primary)]" />
+                                sandhaliya1@gmail.com
+                                <span className="flex items-center gap-1 text-[var(--color-muted)] ml-1">
+                                    <FiCopy size={13} />
+                                    {copied ? "Copied!" : "Copy"}
+                                </span>
+                            </button>
+                        </div>
+
+                        {/* Live timezone widget */}
+                        {now && (
+                            <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl glass border border-border text-sm text-[var(--color-muted)]">
+                                <FiClock size={15} className="text-[var(--color-primary)] shrink-0" />
+                                <span className="text-[var(--color-text)] font-mono">
+                                    {myTime} IST
+                                </span>
+                                <span className="opacity-30">·</span>
+                                <span>{tzLabel}</span>
+                            </div>
+                        )}
                     </motion.div>
 
                     {/* Tagline */}
@@ -241,6 +379,7 @@ export default function Hero() {
                             <FiMail size={22} />
                         </a>
                     </motion.div>
+
                 </motion.div>
 
                 {/* Scroll indicator */}
